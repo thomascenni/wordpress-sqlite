@@ -1,37 +1,34 @@
-#!/command/with-contenv bash
-WORDPRESS_ROOT="$(webhome)"
+#!/usr/bin/with-contenv bash
+
+# Exit on error
+set -e
+
+WORDPRESS_ROOT="$WEBUSER_HOME"
 WORDPRESS_CHECK="$WORDPRESS_ROOT/wp-content"
 
 if [ ! -d "$WORDPRESS_CHECK" ]; then
     echo; echo "🤖 Installing Wordpress from scratch"
     rm -f $WORDPRESS_ROOT/index.*
-    wp core download \
+    wp core download --allow-root \
         --locale="${WORDPRESS_LOCALE:-en_US}" \
         --version="${WORDPRESS_VERSION:-6.0.2}" \
         --force
-    wmd $WORDPRESS_ROOT -R &
+    chown -R $PUID:$PGID $WORDPRESS_ROOT
 
-    echo; echo "⬇️ Installing wp-sqlite-db from source"
-    wget -O "$WORDPRESS_CHECK/db.php" https://raw.githubusercontent.com/aaemnnosttv/wp-sqlite-db/master/src/db.php
+    echo; echo "✨ Installing wp-sqlite-db from source"
+    wget -q -O "$WORDPRESS_CHECK/db.php" https://raw.githubusercontent.com/aaemnnosttv/wp-sqlite-db/master/src/db.php
 fi
 
 echo; echo "✨ Creating wp-config.php file"
-wp config create --dbname=wpsqlite --dbuser=wpsqlite --skip-check --extra-php <<PHP
+wp config create --allow-root --dbname=wpsqlite --dbuser=wpsqlite --skip-check --extra-php <<PHP
 define('DB_FILE', 'wpsqlite.sqlite');
 define('DB_DIR', '$WPSQLITEDATA/');
 PHP
-
-if [ -f /etc/docker-wordpress.php ]; then
-    php /etc/docker-wordpress.php
-fi
 
 echo; echo "✨ Allow open_basedir outside of $WORDPRESS_ROOT"
 echo "php_admin_value[open_basedir] = none" >> /etc/php/8.1/fpm/pool.d/www.conf
 
 echo; echo "✨ Change permissions on $WPSQLITEDATA"
-wmd $WPSQLITEDATA -R 2>/dev/null
-
-echo; echo "✨ Restart php-fpm process"
-s6-svc -r /run/service/100-php-fpm
+chown -R $PUID:$PGID $WPSQLITEDATA
 
 echo "✅ Done."
