@@ -1,0 +1,12 @@
+version: "3.3"
+
+volumes:
+    sqlite-data:
+
+services:
+    web:
+        image: "ghcr.io/thomascenni/wordpress-sqlite:latest"
+        ports:
+            - "80:80"
+        volumes:
+            - sqlite-data:/wpsqlitedata

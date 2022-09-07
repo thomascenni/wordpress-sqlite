@@ -1,5 +1,6 @@
 FROM serversideup/php:8.1-fpm-nginx
 
+LABEL maintainer="Thomas Cenni (@thomascenni)"
 LABEL org.opencontainers.image.source https://github.com/thomascenni/wordpress-sqlite
 LABEL org.opencontainers.image.description "Wordpress with SQLite."
 
