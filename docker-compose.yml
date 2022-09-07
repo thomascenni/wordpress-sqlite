@@ -7,6 +7,6 @@ services:
     web:
         image: "ghcr.io/thomascenni/wordpress-sqlite:latest"
         ports:
-            - "80:80"
+            - "8080:80"
         volumes:
             - sqlite-data:/wpsqlitedata
