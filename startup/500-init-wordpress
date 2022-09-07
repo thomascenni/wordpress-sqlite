@@ -1,0 +1,37 @@
+#!/command/with-contenv bash
+WORDPRESS_ROOT="$(webhome)"
+WORDPRESS_CHECK="$WORDPRESS_ROOT/wp-content"
+
+if [ ! -d "$WORDPRESS_CHECK" ]; then
+    echo; echo "🤖 Installing Wordpress from scratch"
+    rm -f $WORDPRESS_ROOT/index.*
+    wp core download \
+        --locale="${WORDPRESS_LOCALE:-en_US}" \
+        --version="${WORDPRESS_VERSION:-6.0.2}" \
+        --force
+    wmd $WORDPRESS_ROOT -R &
+
+    echo; echo "⬇️ Installing wp-sqlite-db from source"
+    wget -O "$WORDPRESS_CHECK/db.php" https://raw.githubusercontent.com/aaemnnosttv/wp-sqlite-db/master/src/db.php
+fi
+
+echo; echo "✨ Creating wp-config.php file"
+wp config create --dbname=wpsqlite --dbuser=wpsqlite --skip-check --extra-php <<PHP
+define('DB_FILE', 'wpsqlite.sqlite');
+define('DB_DIR', '$WPSQLITEDATA/');
+PHP
+
+if [ -f /etc/docker-wordpress.php ]; then
+    php /etc/docker-wordpress.php
+fi
+
+echo; echo "✨ Allow open_basedir outside of $WORDPRESS_ROOT"
+echo "php_admin_value[open_basedir] = none" >> /etc/php/8.1/fpm/pool.d/www.conf
+
+echo; echo "✨ Change permissions on $WPSQLITEDATA"
+wmd $WPSQLITEDATA -R 2>/dev/null
+
+echo; echo "✨ Restart php-fpm process"
+s6-svc -r /run/service/100-php-fpm
+
+echo "✅ Done."
