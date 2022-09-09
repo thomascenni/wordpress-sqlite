@@ -17,7 +17,7 @@ jobs:
             - uses: mr-smithers-excellent/docker-build-push@v5
               name: Build & push Docker image
               with:
-                  image: ghcr.io/thomascenni/wordpress-sqlite
+                  image: wordpress-sqlite
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.GHCR_TOKEN }}
