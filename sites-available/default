@@ -19,7 +19,7 @@ server {
 	# Healthchecks: Set /ping to be the healhcheck URL
     location /ping {
 		access_log off;
-		
+
         # set max 5 seconds for healthcheck
         fastcgi_read_timeout 5s;
 
@@ -50,7 +50,7 @@ server {
 	listen 443 http2 ssl default_server;
 	listen [::]:443 http2 ssl default_server;
 
-	root /var/www/html/public;
+	root /var/www/html;
 
 	ssl_certificate /etc/ssl/web/ssl.crt;
 	ssl_certificate_key /etc/ssl/web/ssl.key;
@@ -69,7 +69,7 @@ server {
 	# Healthchecks: Set /ping to be the healhcheck URL
     location /ping {
 		access_log off;
-		
+
         # set max 5 seconds for healthcheck
         fastcgi_read_timeout 5s;
 
