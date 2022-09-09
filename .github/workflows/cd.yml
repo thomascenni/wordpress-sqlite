@@ -18,6 +18,7 @@ jobs:
               name: Build & push Docker image
               with:
                   image: wordpress-sqlite
+                  addLatest: true
                   registry: ghcr.io
                   username: ${{ github.actor }}
-                  password: ${{ secrets.GHCR_TOKEN }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
