@@ -38,9 +38,3 @@ Run the Docker image on your machine:
 ```
 docker run -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
 ```
-
-Push the Docker image to GitHub Packages:
-
-```
-docker push ghcr.io/thomascenni/wordpress-sqlite
-```

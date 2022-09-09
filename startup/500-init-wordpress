@@ -5,6 +5,7 @@ set -e
 
 WORDPRESS_ROOT="$WEBUSER_HOME"
 WORDPRESS_CHECK="$WORDPRESS_ROOT/wp-content"
+WORDPRESS_SQLITE_DIR="${WORDPRESS_SQLITE_DIR:-/wpsqlitedata}"
 
 if [ ! -d "$WORDPRESS_CHECK" ]; then
     echo; echo "🤖 Installing Wordpress from scratch"
@@ -21,16 +22,23 @@ if [ ! -d "$WORDPRESS_CHECK" ]; then
     echo; echo "✨ Creating wp-config.php file"
     wp config create --allow-root --dbname=wpsqlite --dbuser=wpsqlite --skip-check --extra-php <<PHP
 define('DB_FILE', 'wpsqlite.sqlite');
-define('DB_DIR', '$WPSQLITEDATA/');
+define('DB_DIR', '$WORDPRESS_SQLITE_DIR/');
 PHP
 
     echo; echo "✨ Allow open_basedir outside of $WORDPRESS_ROOT"
     echo "php_admin_value[open_basedir] = none" >> /etc/php/8.1/fpm/pool.d/www.conf
-
-    echo; echo "✨ Change permissions on $WPSQLITEDATA"
-    chown -R $PUID:$PGID $WPSQLITEDATA
-
-    echo "✅ Done."
 else
-    echo; echo "🤙 Wordpress installation found. Nothing to do."
+    echo; echo "✅ Wordpress installation found. Nothing to do."
 fi
+
+if [ ! -d "$WORDPRESS_SQLITE_DIR" ]; then
+    echo; echo "✨ Create folder $WORDPRESS_SQLITE_DIR"
+    mkdir $WORDPRESS_SQLITE_DIR
+
+    echo; echo "✨ Change permissions on $WORDPRESS_SQLITE_DIR"
+    chown -R $PUID:$PGID $WORDPRESS_SQLITE_DIR
+else
+    echo; echo "✅ SQLite data folder found. Nothing to do."
+fi
+
+echo; echo "✅ Done."

@@ -9,4 +9,4 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - sqlite-data:/wpsqlitedata
+            - sqlite-data:${WORDPRESS_SQLITE_DIR:-/wpsqlitedata}
