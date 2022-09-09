@@ -5,9 +5,6 @@ on:
         branches: [master]
 
 permissions:
-    contents: write
-    pull-requests: write
-    issues: read
     packages: write
 
 jobs:
@@ -22,5 +19,5 @@ jobs:
               with:
                   image: ghcr.io/thomascenni/wordpress-sqlite
                   registry: ghcr.io
-                  username: ${{ secrets.GHCR_USERNAME }}
+                  username: ${{ github.actor }}
                   password: ${{ secrets.GHCR_TOKEN }}
