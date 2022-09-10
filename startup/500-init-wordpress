@@ -34,11 +34,11 @@ fi
 if [ ! -d "$WORDPRESS_SQLITE_DIR" ]; then
     echo; echo "✨ Create folder $WORDPRESS_SQLITE_DIR"
     mkdir $WORDPRESS_SQLITE_DIR
-
-    echo; echo "✨ Change permissions on $WORDPRESS_SQLITE_DIR"
-    chown -R $PUID:$PGID $WORDPRESS_SQLITE_DIR
 else
     echo; echo "✅ SQLite data folder found. Nothing to do."
 fi
+
+echo; echo "✨ Change permissions on $WORDPRESS_SQLITE_DIR"
+chown -R $PUID:$PGID $WORDPRESS_SQLITE_DIR
 
 echo; echo "✅ Done."
