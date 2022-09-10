@@ -1,7 +1,7 @@
 version: "3.3"
 
 volumes:
-    sqlite-data:
+    wordpress-data:
 
 services:
     web:
@@ -9,4 +9,4 @@ services:
         ports:
             - "8080:80"
         volumes:
-            - sqlite-data:${WORDPRESS_SQLITE_DIR:-/wpsqlitedata}
+            - wordpress-data:/var/www/html/wp-content
