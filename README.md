@@ -1,15 +1,15 @@
 # Wordpress SQLite
 
-The goal of this project is to run the latest Wordpress software with **SQLite** as a database instead of MySQL.
-
-The container has been built at the time of wordpress version 6.0.2, but it can be run with the latest version simply passing the new version as environment variable.
+The goal of this project is to run the latest WordPress software with **SQLite** as a database instead of MySQL.
 
 This is possible via [wp-sqlite-db](https://github.com/aaemnnosttv/wp-sqlite-db), a single file drop-in for using a SQLite database with WordPress.
+
+Updated to PHP 8.2 and **WordPress 6.3.2** (using PHP image [serversideup/php:8.2-fpm-apache](https://github.com/serversideup/docker-php)).
 
 If you have Docker installed on your machine, simply run:
 
 ```
-docker run -e WORDPRESS_VERSION=6.3.2 -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
+docker run -e SSL_MODE=off -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
 ```
 
 or:
@@ -32,7 +32,7 @@ cd wordpress-sqlite
 Build the Docker image:
 
 ```
-docker build --tag ghcr.io/thomascenni/wordpress-sqlite ./
+docker build --no-cache --tag ghcr.io/thomascenni/wordpress-sqlite ./
 ```
 
 Run the Docker image on your machine:
