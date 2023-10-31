@@ -2,12 +2,14 @@
 
 The goal of this project is to run the latest Wordpress software with **SQLite** as a database instead of MySQL.
 
+The container has been built at the time of wordpress version 6.0.2, but it can be run with the latest version simply passing the new version as environment variable.
+
 This is possible via [wp-sqlite-db](https://github.com/aaemnnosttv/wp-sqlite-db), a single file drop-in for using a SQLite database with WordPress.
 
 If you have Docker installed on your machine, simply run:
 
 ```
-docker run -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
+docker run -e WORDPRESS_VERSION=6.3.2 -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
 ```
 
 or:
