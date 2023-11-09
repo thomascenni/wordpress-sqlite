@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/thomascenni/wordpress-s
 LABEL org.opencontainers.image.description "Wordpress with SQLite."
 
 ENV WORDPRESS_LOCALE="en_US"
-ENV WORDPRESS_VERSION="6.3.2"
+ENV WORDPRESS_VERSION="6.4.1"
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/
 
 COPY startup/ /etc/cont-init.d/
