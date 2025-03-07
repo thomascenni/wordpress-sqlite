@@ -6,6 +6,9 @@ volumes:
 services:
     web:
         image: "ghcr.io/thomascenni/wordpress-sqlite:latest"
+        environment:
+            - SSL_MODE=off
+            - WORDPRESS_VERSION=6.7.2
         ports:
             - "8080:80"
         volumes:
