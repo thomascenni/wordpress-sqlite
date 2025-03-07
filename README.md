@@ -4,12 +4,12 @@ The goal of this project is to run the latest WordPress software with **SQLite**
 
 This is possible via [wp-sqlite-db](https://github.com/aaemnnosttv/wp-sqlite-db), a single file drop-in for using a SQLite database with WordPress.
 
-Updated to PHP 8.2 and **WordPress 6.4.1** (using PHP image [serversideup/php:8.2-fpm-apache](https://github.com/serversideup/docker-php)).
+Updated to PHP 8.2 and **WordPress 6.7.2** (using PHP image [serversideup/php:8.2-fpm-apache](https://github.com/serversideup/docker-php)).
 
 If you have Docker installed on your machine, simply run:
 
 ```
-docker run -e SSL_MODE=off -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
+docker run -e SSL_MODE=off -e WORDPRESS_VERSION=6.7.2 -p 8080:80 ghcr.io/thomascenni/wordpress-sqlite
 ```
 
 or:
